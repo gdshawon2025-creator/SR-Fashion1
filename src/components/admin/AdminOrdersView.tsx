@@ -15,11 +15,9 @@ import {
   AlertTriangle,
   CheckSquare,
   Square,
-  X,
-  MessageSquare
+  X
 } from 'lucide-react';
 import { Order, OrderStatus, PaymentStatus } from '../../types';
-import { generateOrderWhatsAppDetails } from '../../utils/storage';
 
 interface AdminOrdersViewProps {
   orders: Order[];
@@ -330,20 +328,9 @@ export const AdminOrdersView: React.FC<AdminOrdersViewProps> = ({
                         )}
                       </td>
 
-                      {/* Actions: Invoice + WhatsApp + Delete */}
+                      {/* Actions: Invoice + Delete */}
                       <td className="px-5 py-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">
-                          <a
-                            href={generateOrderWhatsAppDetails(order, '01352113432').url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors shadow-2xs cursor-pointer"
-                            title="WhatsApp-এ অর্ডারের বিবরণ দেখুন (01352113432)"
-                          >
-                            <MessageSquare className="w-3.5 h-3.5" />
-                            <span className="hidden sm:inline">WhatsApp</span>
-                          </a>
-
                           <button
                             type="button"
                             onClick={() => onSelectOrder(order)}

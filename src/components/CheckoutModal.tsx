@@ -12,11 +12,8 @@ import {
   Smartphone,
   Banknote,
   ArrowRight,
-  Info,
-  MessageSquare,
-  ExternalLink
+  Info
 } from 'lucide-react';
-import { generateOrderWhatsAppDetails } from '../utils/storage';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -24,7 +21,6 @@ interface CheckoutModalProps {
   items: CartItem[];
   appliedDiscount: number;
   onOrderPlaced: (order?: Order) => void;
-  whatsappNumber?: string;
 }
 
 type PaymentMethodType = 'cod' | 'bkash' | 'nagad' | 'card';
@@ -35,7 +31,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   items,
   appliedDiscount,
   onOrderPlaced,
-  whatsappNumber = '01352113432',
 }) => {
   const [formData, setFormData] = useState({
     firstName: 'Younus',
@@ -63,8 +58,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
   const [copiedType, setCopiedType] = useState<'bkash' | 'nagad' | null>(null);
-  const [whatsAppInfo, setWhatsAppInfo] = useState<{ url: string; text: string; number: string; rawNumber: string } | null>(null);
-  const [copiedWhatsApp, setCopiedWhatsApp] = useState(false);
 
   if (!isOpen) return null;
 
@@ -151,18 +144,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           minute: '2-digit',
         }),
       };
-
-      // Generate complete WhatsApp order details for 01352113432
-      const targetPhone = whatsappNumber || '01352113432';
-      const wa = generateOrderWhatsAppDetails(newOrder, targetPhone);
-      setWhatsAppInfo(wa);
-
-      // Automatically open WhatsApp with all order details
-      try {
-        window.open(wa.url, '_blank');
-      } catch (err) {
-        console.log('WhatsApp auto window.open triggered', err);
-      }
 
       onOrderPlaced(newOrder);
     }, 1200);
@@ -258,56 +239,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               <div className="pt-2 border-t border-stone-200 flex justify-between font-bold text-stone-900">
                 <span>মোট পরিশোধযোগ্য:</span>
                 <span>${total.toFixed(2)}</span>
-              </div>
-            </div>
-
-            {/* Automated WhatsApp Notification Box for 01352113432 */}
-            <div className="p-4 bg-emerald-50 border border-emerald-300 rounded-xl text-left space-y-3 max-w-md mx-auto shadow-xs">
-              <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-xs">
-                  <MessageSquare className="w-5 h-5" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-emerald-950 text-xs sm:text-sm">
-                      WhatsApp এ সকল তথ্য পাঠানো হচ্ছে
-                    </h4>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-200/80 text-emerald-800">
-                      অটো WhatsApp
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-emerald-800 mt-1">
-                    অর্ডারের সকল বিবরণী স্বয়ংক্রিয়ভাবে <strong>{whatsAppInfo?.rawNumber || whatsappNumber || '01352113432'}</strong> নম্বরে পাঠানোর জন্য রেডি করা হয়েছে।
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-2 pt-1">
-                <a
-                  href={whatsAppInfo?.url || `https://api.whatsapp.com/send?phone=8801352113432`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition-all shadow-xs cursor-pointer text-center"
-                >
-                  <MessageSquare className="w-3.5 h-3.5" />
-                  <span>WhatsApp এ পাঠান / দেখুন</span>
-                  <ExternalLink className="w-3 h-3 ml-0.5 opacity-80" />
-                </a>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (whatsAppInfo?.text) {
-                      navigator.clipboard.writeText(whatsAppInfo.text);
-                      setCopiedWhatsApp(true);
-                      setTimeout(() => setCopiedWhatsApp(false), 2500);
-                    }
-                  }}
-                  className="flex items-center justify-center gap-1 py-2 px-3 bg-white border border-emerald-300 hover:bg-emerald-100 text-emerald-900 text-xs font-semibold rounded-lg transition-colors cursor-pointer"
-                >
-                  {copiedWhatsApp ? <Check className="w-3.5 h-3.5 text-emerald-700" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copiedWhatsApp ? 'কপি হয়েছে!' : 'মেসেজ কপি'}</span>
-                </button>
               </div>
             </div>
 

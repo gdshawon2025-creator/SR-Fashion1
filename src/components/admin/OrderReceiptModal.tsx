@@ -11,11 +11,9 @@ import {
   Mail, 
   MapPin, 
   CreditCard,
-  Trash2,
-  MessageSquare
+  Trash2
 } from 'lucide-react';
 import { Order, OrderStatus, PaymentStatus } from '../../types';
-import { generateOrderWhatsAppDetails } from '../../utils/storage';
 
 interface OrderReceiptModalProps {
   order: Order | null;
@@ -69,19 +67,9 @@ export const OrderReceiptModal: React.FC<OrderReceiptModalProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <a
-              href={generateOrderWhatsAppDetails(order, '01352113432').url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors shadow-2xs"
-              title="WhatsApp এ অর্ডার ডিটেইলস পাঠান (01352113432)"
-            >
-              <MessageSquare className="w-3.5 h-3.5" />
-              <span>WhatsApp</span>
-            </a>
             <button
               onClick={handlePrint}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-300 text-stone-700 hover:bg-stone-100 text-xs font-medium transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-300 text-stone-700 hover:bg-stone-100 text-xs font-medium transition-colors"
               title="Print invoice"
             >
               <Printer className="w-3.5 h-3.5" />
