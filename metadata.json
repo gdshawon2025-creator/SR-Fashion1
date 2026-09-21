@@ -1,0 +1,8 @@
+{
+  "name": "SR Fashion",
+  "description": "Online fashion store featuring the latest trends, curated collections, seasonal offers, and seamless shopping.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
