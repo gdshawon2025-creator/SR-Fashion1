@@ -40,6 +40,7 @@ interface AdminPanelProps {
   onToggleCoupon: (id: string) => void;
   onDeleteCoupon: (id: string) => void;
   onSaveSettings: (settings: StoreSettings) => void;
+  onLogout?: () => void;
 }
 
 export const AdminPanel: React.FC<AdminPanelProps> = ({
@@ -59,6 +60,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   onToggleCoupon,
   onDeleteCoupon,
   onSaveSettings,
+  onLogout,
 }) => {
   const [currentTab, setCurrentTab] = useState<AdminTab>('dashboard');
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
@@ -90,6 +92,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           onReturnToStore={onReturnToStore}
           pendingOrdersCount={pendingOrdersCount}
           totalProductsCount={products.length}
+          onLogout={onLogout}
         />
       </div>
 
@@ -110,6 +113,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               onReturnToStore={onReturnToStore}
               pendingOrdersCount={pendingOrdersCount}
               totalProductsCount={products.length}
+              onLogout={onLogout}
             />
           </div>
         </div>
@@ -123,6 +127,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           onReturnToStore={onReturnToStore}
           onToggleMobileMenu={() => setMobileSidebarOpen(true)}
           pendingOrdersCount={pendingOrdersCount}
+          onLogout={onLogout}
         />
 
         <main className="p-6 md:p-8 flex-1 max-w-7xl w-full mx-auto">

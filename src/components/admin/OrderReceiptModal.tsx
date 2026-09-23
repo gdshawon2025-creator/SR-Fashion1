@@ -14,6 +14,7 @@ import {
   Trash2
 } from 'lucide-react';
 import { Order, OrderStatus, PaymentStatus } from '../../types';
+import brandLogo from '../../assets/logo';
 
 interface OrderReceiptModalProps {
   order: Order | null;
@@ -121,7 +122,7 @@ export const OrderReceiptModal: React.FC<OrderReceiptModalProps> = ({
           <div className="flex items-center justify-between p-4 bg-stone-50 rounded-xl border border-stone-200">
             <div className="flex items-center gap-3">
               <img
-                src="/sr-fashion-logo.jpg"
+                src={brandLogo}
                 alt="SR Fashion Logo"
                 referrerPolicy="no-referrer"
                 className="w-12 h-12 rounded-full object-cover border-2 border-amber-500/80 shadow-xs"

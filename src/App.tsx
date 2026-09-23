@@ -16,6 +16,8 @@ import { SearchModal } from './components/SearchModal';
 import { WishlistModal } from './components/WishlistModal';
 import { Toast } from './components/Toast';
 import { AdminPanel } from './components/admin/AdminPanel';
+import { AdminLoginModal } from './components/admin/AdminLoginModal';
+import { isAdminLoggedIn, adminLogout } from './utils/adminAuth';
 import { ShieldCheck, LayoutDashboard } from 'lucide-react';
 
 interface StoreSettings {
@@ -33,6 +35,8 @@ interface StoreSettings {
 export default function App() {
   // Current view: storefront or admin panel
   const [currentView, setCurrentView] = useState<'store' | 'admin'>('store');
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => isAdminLoggedIn());
+  const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
 
   // Products state (can be modified by admin)
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
@@ -72,6 +76,8 @@ export default function App() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isAdminLoginModalOpen, setIsAdminLoginModalOpen] = useState(false);
+  const [isAdminLoggedInState, setIsAdminLoggedInState] = useState(isAdminLoggedIn());
 
   // Notifications
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -87,6 +93,28 @@ export default function App() {
 
   const handleDismissToast = (id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  const handleOpenAdmin = () => {
+    if (isAdminLoggedInState || isAdminLoggedIn()) {
+      setCurrentView('admin');
+    } else {
+      setIsAdminLoginModalOpen(true);
+    }
+  };
+
+  const handleAdminLoginSuccess = () => {
+    setIsAdminLoggedInState(true);
+    setIsAdminLoginModalOpen(false);
+    setCurrentView('admin');
+    showToast('এডমিন লগইন সফল!', 'এডমিন ড্যাশবোর্ডে স্বাগতম।', 'success');
+  };
+
+  const handleAdminLogout = () => {
+    adminLogout();
+    setIsAdminLoggedInState(false);
+    setCurrentView('store');
+    showToast('লগআউট সম্পন্ন', 'এডমিন প্যানেল থেকে সফলভাবে লগআউট হয়েছেন।', 'info');
   };
 
   // Add to cart handler
@@ -381,6 +409,7 @@ export default function App() {
           onToggleCoupon={handleToggleCoupon}
           onDeleteCoupon={handleDeleteCoupon}
           onSaveSettings={handleSaveSettings}
+          onLogout={handleAdminLogout}
         />
         <Toast toasts={toasts} onDismiss={handleDismissToast} />
       </div>
@@ -403,7 +432,7 @@ export default function App() {
         onOpenCart={() => setIsCartOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
-        onOpenAdmin={() => setCurrentView('admin')}
+        onOpenAdmin={handleOpenAdmin}
         activeCategory={selectedCategory}
         onSelectCategory={handleSelectCategory}
       />
@@ -429,7 +458,7 @@ export default function App() {
           onQuickView={(product) => setQuickViewProduct(product)}
           wishlist={wishlist}
           onToggleWishlist={handleToggleWishlist}
-          onOpenAdmin={() => setCurrentView('admin')}
+          onOpenAdmin={handleOpenAdmin}
         />
 
         {/* Promotional Offer Section */}
@@ -445,7 +474,7 @@ export default function App() {
       {/* Footer */}
       <Footer
         onCategoryClick={handleSelectCategory}
-        onOpenAdmin={() => setCurrentView('admin')}
+        onOpenAdmin={handleOpenAdmin}
         storeAddress={settings.storeAddress}
         storePhone={settings.supportPhone}
         storeEmail={settings.supportEmail}
@@ -520,11 +549,18 @@ export default function App() {
         }}
       />
 
+      {/* Admin Login Modal */}
+      <AdminLoginModal
+        isOpen={isAdminLoginModalOpen}
+        onClose={() => setIsAdminLoginModalOpen(false)}
+        onLoginSuccess={handleAdminLoginSuccess}
+      />
+
       {/* Floating Quick Admin Toggle Pill */}
       <div className="fixed bottom-5 right-5 z-40">
         <button
-          onClick={() => setCurrentView('admin')}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-stone-900 hover:bg-amber-500 text-white hover:text-stone-950 font-bold text-xs shadow-xl border border-stone-700 hover:border-amber-400 transition-all transform hover:scale-105"
+          onClick={handleOpenAdmin}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-stone-900 hover:bg-amber-500 text-white hover:text-stone-950 font-bold text-xs shadow-xl border border-stone-700 hover:border-amber-400 transition-all transform hover:scale-105 cursor-pointer"
           title="Open Merchant Admin Panel"
         >
           <LayoutDashboard className="w-4 h-4 text-amber-400 group-hover:text-stone-950" />

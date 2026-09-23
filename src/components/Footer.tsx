@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, Mail, MapPin, Instagram, Facebook, Twitter, Youtube, ShieldCheck } from 'lucide-react';
+import brandLogo from '../assets/logo';
 
 interface FooterProps {
   onCategoryClick?: (cat: string) => void;
@@ -25,7 +26,7 @@ export const Footer: React.FC<FooterProps> = ({
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img
-                src="/sr-fashion-logo.jpg"
+                src={brandLogo}
                 alt="SR Fashion Logo"
                 referrerPolicy="no-referrer"
                 className="w-12 h-12 rounded-full object-cover border-2 border-[#e8b04b] shadow-xs"

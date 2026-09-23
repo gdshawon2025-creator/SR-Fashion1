@@ -6,7 +6,8 @@ import {
   ExternalLink, 
   Store,
   Menu,
-  ShieldCheck
+  ShieldCheck,
+  LogOut
 } from 'lucide-react';
 import { AdminTab } from '../../types';
 
@@ -16,6 +17,7 @@ interface AdminHeaderProps {
   onReturnToStore: () => void;
   onToggleMobileMenu?: () => void;
   pendingOrdersCount: number;
+  onLogout?: () => void;
 }
 
 export const AdminHeader: React.FC<AdminHeaderProps> = ({
@@ -23,7 +25,8 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
   onOpenAddProduct,
   onReturnToStore,
   onToggleMobileMenu,
-  pendingOrdersCount
+  pendingOrdersCount,
+  onLogout,
 }) => {
   const getTabTitles = (tab: AdminTab) => {
     switch (tab) {
@@ -105,6 +108,18 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
             <div className="text-[10px] text-stone-500">gdyounus2025@gmail.com</div>
           </div>
         </div>
+
+        {/* Logout button */}
+        {onLogout && (
+          <button
+            onClick={onLogout}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-red-200 bg-red-50/60 hover:bg-red-100 text-red-700 text-xs font-semibold transition-colors cursor-pointer ml-1"
+            title="এডমিন প্যানেল থেকে লগআউট করুন"
+          >
+            <LogOut className="w-3.5 h-3.5 text-red-600" />
+            <span className="hidden sm:inline">লগআউট</span>
+          </button>
+        )}
       </div>
     </header>
   );

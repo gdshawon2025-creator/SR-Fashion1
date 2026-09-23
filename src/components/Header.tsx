@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, ShoppingBag, Heart, Menu, X, ArrowRight, ShieldCheck, LayoutDashboard } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
+import brandLogo from '../assets/logo';
 
 interface HeaderProps {
   cartCount: number;
@@ -45,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
           className="flex items-center gap-3 select-none group"
         >
           <img
-            src="/sr-fashion-logo.jpg"
+            src={brandLogo}
             alt="SR Fashion Logo"
             referrerPolicy="no-referrer"
             className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover border-2 border-[#e8b04b] shadow-xs group-hover:scale-105 transition-transform duration-200"

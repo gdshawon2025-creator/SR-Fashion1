@@ -1,4 +1,5 @@
 import React from 'react';
+import brandLogo from '../assets/logo';
 
 interface BrandLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -28,7 +29,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <div className={`flex items-center gap-2.5 sm:gap-3 select-none ${className}`}>
       <div className="relative shrink-0">
         <img
-          src="/sr-fashion-logo.jpg"
+          src={brandLogo}
           alt="SR Fashion Logo"
           referrerPolicy="no-referrer"
           className={`rounded-full object-cover shadow-xs border-2 border-amber-500/70 transition-transform duration-200 hover:scale-105 ${currentSize.img} ${imgClassName}`}
