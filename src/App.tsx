@@ -35,8 +35,6 @@ interface StoreSettings {
 export default function App() {
   // Current view: storefront or admin panel
   const [currentView, setCurrentView] = useState<'store' | 'admin'>('store');
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => isAdminLoggedIn());
-  const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
 
   // Products state (can be modified by admin)
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
