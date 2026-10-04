@@ -10,10 +10,42 @@
     <meta property="og:description" content="Discover the latest fashion trends with SR Fashion. Quality products, modern designs and affordable prices." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // 1. Ensure trailing slash for paths without file extensions so relative assets resolve properly
+      (function() {
+        var pathname = window.location.pathname;
+        if (!pathname.endsWith('/') && !pathname.split('/').pop().includes('.')) {
+          window.location.replace(pathname + '/' + window.location.search + window.location.hash);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script
+      type="module"
+      src="/src/main.tsx"
+      onerror="(function() {
+        var p = window.location.pathname;
+        if (!p.includes('/docs/')) {
+          if (!p.endsWith('/')) p += '/';
+          window.location.replace(window.location.origin + p + 'docs/' + window.location.search + window.location.hash);
+        }
+      })()"
+    ></script>
+    <script>
+      // 2. Recovery watchdog for GitHub Pages if served from repo root instead of /docs
+      if (window.location.hostname.includes('github.io') && !window.location.pathname.includes('/docs/')) {
+        setTimeout(function() {
+          var root = document.getElementById('root');
+          if (root && root.children.length === 0) {
+            var p = window.location.pathname;
+            if (!p.endsWith('/')) p += '/';
+            window.location.replace(window.location.origin + p + 'docs/' + window.location.search + window.location.hash);
+          }
+        }, 1200);
+      }
+    </script>
   </body>
 </html>
 
